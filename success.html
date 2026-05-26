@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success - Track & Field Career</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        .success-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .success-container h1 {
+            font-size: 3rem;
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+
+        .success-container p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .success-btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .success-btn:hover {
+            background-color: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        .success-btn:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Track & Field</a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="a.html" class="nav-link">Records</a></li>
+                <li><a href="b.html" class="nav-link">Add Yours</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="success-container">
+            <h1>Success!</h1>
+            <p>Your record has been submitted successfully.</p>
+            <a href="a.html" class="success-btn">Go to Records</a>
+        </div>
+    </main>
+
+    <footer>
+        <p><a href="a.html">Records</a> | <a href="b.html">Add Yours</a> | <a href="https://www.worldathletics.org" target="_blank" rel="noopener noreferrer">World Athletics</a></p>
+        <p>&copy; Irey Final Project. Only As Allowed.</p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

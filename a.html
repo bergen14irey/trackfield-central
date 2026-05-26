@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T&FC Records</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Track & Field Records</a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="a.html" class="nav-link active">Records</a></li>
+                <li><a href="b.html" class="nav-link">Add Yours</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1> Track and Field Central</h1>
+        <p>From the Blocks to the Pit, to the Ring to the Course</p>
+        <p> How do you stack up? </p>
+    </header>
+
+    <main>
+        <section class="records">
+            <h2>Records</h2>
+            <div class="search-container">
+                <input type="text" id="eventSearch" class="search-input" placeholder="Search event ...">
+                <button id="clearSearch" class="clear-btn">Reset table</button>
+            </div>
+            <div style="margin-bottom:1rem; display:flex; gap:1rem; align-items:center;">
+                <label for="groupSelect">Group by:</label>
+                <select id="groupSelect">
+                    <option value="all">All</option>
+                    <option value="running">Sprints</option>
+                    <option value="short-distance">Hurdles</option>
+                    <option value="long-distance">Mid Distance</option>
+                    <option value="cross-country">Long Distance</option>
+                    <option value="throwing">Throwing</option>
+                    <option value="jumping">Jumping</option>
+                    <option value="multi">Multi-Event</option>
+                </select>
+            </div>
+
+            <!-- Sprints Section -->
+            <div id="running-section" class="event-group-section">
+                <h3>Sprints</h3>
+                
+                <div class="event-subsection" data-event="60m">
+                    <h4>60m</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-60m"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="100m">
+                    <h4>100m</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-100m"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="400m">
+                    <h4>400m</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-400m"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="200m">
+                    <h4>200m</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-200m"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="300m">
+                    <h4>300m</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-300m"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="500m">
+                    <h4>500m</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-500m"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="600m">
+                    <h4>600m</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-600m"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Hurdles Section -->
+            <div id="short-distance-section" class="event-group-section">
+                <h3>Hurdles</h3>
+                
+                <div class="event-subsection" data-event="60m Hurdles">
+                    <h4>60m Hurdles</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-60m-hurdles"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="100m Hurdles">
+                    <h4>100m Hurdles</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-100m-hurdles"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="110m Hurdles">
+                    <h4>110m Hurdles</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-110m-hurdles"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="300m Hurdles">
+                    <h4>300m Hurdles</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-300m-hurdles"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="400m Hurdles">
+                    <h4>400m Hurdles</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-400m-hurdles"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="3k Steeplechase">
+                    <h4>3k Steeplechase</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-3k-steeplechase"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Mid Distance Section -->
+            <div id="long-distance-section" class="event-group-section">
+                <h3>Mid Distance</h3>
+                
+                <div class="event-subsection" data-event="800m">
+                    <h4>800m</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-800m"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="1k">
+                    <h4>1k</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-1k"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="1500m">
+                    <h4>1500m</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-1500m"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="1600m">
+                    <h4>1600m</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-1600m"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Long Distance Section -->
+            <div id="cross-country-section" class="event-group-section">
+                <h3>Long Distance</h3>
+                
+                <div class="event-subsection" data-event="3k">
+                    <h4>3k</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-3k"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="3200m">
+                    <h4>3200m</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-3200m"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="4k">
+                    <h4>4k</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-4k"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="5k">
+                    <h4>5k</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-5k"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="10k">
+                    <h4>10k</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-10k"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="Half Marathon">
+                    <h4>Half Marathon</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-half-marathon"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="Marathon">
+                    <h4>Marathon</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-marathon"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Throwing Events Section -->
+            <div id="throwing-section" class="event-group-section">
+                <h3>Throwing Events</h3>
+                
+                <div class="event-subsection" data-event="Shot Put">
+                    <h4>Shot Put</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-shot-put"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="Discus">
+                    <h4>Discus</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-discus"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="Javelin">
+                    <h4>Javelin</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-javelin"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="Hammer Throw">
+                    <h4>Hammer Throw</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-hammer-throw"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="Weight Throw">
+                    <h4>Weight Throw</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-weight-throw"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Jumping Events Section -->
+            <div id="jumping-section" class="event-group-section">
+                <h3>Jumping Events</h3>
+                
+                <div class="event-subsection" data-event="High Jump">
+                    <h4>High Jump</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-high-jump"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="Long Jump">
+                    <h4>Long Jump</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-long-jump"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="Triple Jump">
+                    <h4>Triple Jump</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-triple-jump"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="Pole Vault">
+                    <h4>Pole Vault</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-pole-vault"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Multi-Event Section -->
+            <div id="multi-section" class="event-group-section">
+                <h3>Multi-Event</h3>
+                
+                <div class="event-subsection" data-event="Heptathlon">
+                    <h4>Heptathlon</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-heptathlon"></tbody>
+                    </table>
+                </div>
+
+                <div class="event-subsection" data-event="Decathlon">
+                    <h4>Decathlon</h4>
+                    <table class="records-table">
+                        <thead>
+                            <tr>
+                                <th>Record</th>
+                                <th>Athlete</th>
+                                <th>Date</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody class="event-tbody-decathlon"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured-image">
+            <h2>The Track</h2>
+            <img src="/images/HJ State.png" alt="Athletes running on a professional track">
+            <p><em>State High Jump</em></p>
+        </section>
+
+    </main>
+
+    <footer>
+        <p><a href="a.html">Records</a> | <a href="b.html">Add Yours</a> | <a href="https://www.worldathletics.org" target="_blank" rel="noopener noreferrer">World Athletics</a></p>
+        <p>&copy; Irey Final Project. Only As Allowed.</p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

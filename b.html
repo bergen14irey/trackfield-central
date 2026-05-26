@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T&FC Form</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Track & Field Record Submissions</a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="a.html" class="nav-link">Records</a></li>
+                <li><a href="b.html" class="nav-link active">Add Yours</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>Track and Field Central</h1>
+        <p></p>
+    </header>
+
+    <main>
+        <section class="intro">
+            <h2>Submit a Personal Record</h2>
+            <p>Use this form to add a new PR. 
+                Enter the numeric value in the standardized unit 
+                (seconds for time, meters for distance/height). 
+                Example: 9.58 (s), 8.95 (m).
+                <p>
+                    Please ensure all fields are filled out correctly.
+                    Use proper capitalization and punctuation for times and marks.
+                </p>
+            </p>
+        </section>
+
+        <section class="form-section">
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label for="athlete">Athlete Name *</label>
+                    <input type="text" id="athlete" name="athlete" placeholder="First Last" required>
+                    <span class="error-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label>Gender *</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="gender" value="M" required> Male</label>
+                        <label><input type="radio" name="gender" value="W" required> Female</label>
+                    </div>
+                    <span class="error-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="event">Event * (Select one)</label>
+                    <select id="event" name="event" required>
+                        <option value="">-- Choose an Event --</option>
+                        <optgroup label="Sprints">
+                            <option value="60m">60m</option>
+                            <option value="100m">100m</option>
+                            <option value="200m">200m</option>
+                            <option value="300m">300m</option>
+                            <option value="400m">400m</option>
+                        </optgroup>
+                        <optgroup label="Mid Distance">
+                            <option value="500m">500m</option>
+                            <option value="600m">600m</option>
+                            <option value="800m">800m</option>
+                            <option value="1k">1k</option>
+                            <option value="1500m">1500m</option>
+                            <option value="1600m">1600m</option>
+                        </optgroup>
+                        <optgroup label="Distance">
+                            <option value="3k">3k</option>
+                            <option value="3200m">3200m</option>
+                            <option value="4k">4k</option>
+                            <option value="5k">5k</option>
+                            <option value="10k">10k</option>
+                        </optgroup>
+                        <optgroup label="Road Races">
+                            <option value="Half Marathon">Half Marathon</option>
+                            <option value="Marathon">Marathon</option>
+                        </optgroup>
+                        <optgroup label="Hurdles">
+                            <option value="60m Hurdles">60m Hurdles</option>
+                            <option value="100m Hurdles">100m Hurdles</option>
+                            <option value="110m Hurdles">110m Hurdles</option>
+                            <option value="300m Hurdles">300m Hurdles</option>
+                            <option value="400m Hurdles">400m Hurdles</option>
+                            <option value="3k Steeplechase">3k Steeplechase</option>
+                        </optgroup>
+                        <optgroup label="Throws">
+                            <option value="Shot Put">Shot Put</option>
+                            <option value="Discus">Discus</option>
+                            <option value="Javelin">Javelin</option>
+                            <option value="Hammer Throw">Hammer Throw</option>
+                            <option value="Weight Throw">Weight Throw</option>
+                        </optgroup>
+                        <optgroup label="Jumps">
+                            <option value="High Jump">High Jump</option>
+                            <option value="Long Jump">Long Jump</option>
+                            <option value="Triple Jump">Triple Jump</option>
+                            <option value="Pole Vault">Pole Vault</option>
+                        </optgroup>
+                        <optgroup label="Multi-Event">
+                            <option value="Heptathlon">Heptathlon</option>
+                            <option value="Decathlon">Decathlon</option>
+                        </optgroup>
+                    </select>
+                    <span class="error-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="pr_text">Record *</label>
+                    <input type="text" id="pr_text" name="pr_text" placeholder="e.g. 2.05m, 9.58, 1:59.40, 4444" required>
+                    <span class="error-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="pr_date">Date Achieved</label>
+                    <input type="date" id="pr_date" name="pr_date">
+                    <span class="error-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="note">Notes (Optional)</label>
+                    <textarea id="note" name="note" rows="4" placeholder="Add any additional notes about this performance (e.g., meet name, conditions, personal best)"></textarea>
+                    <span class="error-message"></span>
+                </div>
+                <input type="submit" value="Submit PR">
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="a.html">Records</a> | <a href="b.html">Add Yours</a> | <a href="https://www.worldathletics.org" target="_blank" rel="noopener noreferrer">World Athletics</a></p>
+        <p>&copy; Irey Final Project. Only As Allowed.</p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+# Track & Field Central
+
+Track & Field Central is a responsive multi-page website built with HTML, CSS, and JavaScript that showcases my personal track & field journey while simulating a real-world athletic records and submission platform.
+
+The project combines personal athletic experiences with interactive web development concepts including navigation systems, searchable records databases, categorized event organization, and validated form submissions.
+
+## Features
+
+### Home Page
+- Personal track & field biography
+- Athletic progression from cross country to collegiate decathlon training
+- Favorite events and personal records
+- Track & field historical content
+- Responsive navigation bar and layout
+- Embedded images and external resources
+
+### Records Page
+- Searchable track & field records database
+- Categorized event groupings:
+  - Sprints
+  - Hurdles
+  - Mid Distance
+  - Long Distance
+  - Throwing Events
+  - Jumping Events
+  - Multi-Events
+- Dynamic filtering and event grouping
+- Structured athlete performance tables
+- Responsive data presentation
+
+### Add Yours Page
+- Interactive PR submission form
+- Event selection using categorized dropdown menus
+- Gender selection and athlete information input
+- Validation for required fields
+- Notes and date tracking support
+- Structured user input system
+
+## Technologies Used
+- HTML5
+- CSS3
+- JavaScript
+
+## Skills Demonstrated
+- Responsive web design
+- Multi-page website architecture
+- DOM manipulation
+- Form validation
+- Dynamic filtering and searching
+- Data organization and presentation
+- User interface design
+- Semantic HTML structure
+
+## Purpose
+This project was created as a final web development project to demonstrate front-end development skills while combining a personal passion for track & field with interactive website functionality.
+
+## Future Improvements
+- Backend database integration
+- User authentication system
+- Live leaderboard updates
+- Mobile-first enhancements
+- Athlete profile pages
+- Sorting by gender, division, and age group
+- API integration with athletic statistics platforms
+
+## Author
+Bergen Irey
+Cyber Operations Student and Collegiate Track & Field Athlete

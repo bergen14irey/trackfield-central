@@ -1,0 +1,305 @@
+[
+  {
+    "athlete": "Bergen Irey",
+    "event": "60m",
+    "pr": "7.80",
+    "gender": "M",
+    "pr_date": "2025-01-31"
+  },
+  {
+    "athlete": "Bergen Irey",
+    "event": "100m",
+    "pr": "12.27",
+    "gender": "M",
+    "pr_date": "2025-04-15"
+  },
+  {
+    "athlete": "Bergen Irey",
+    "event": "400m",
+    "pr": "56.20",
+    "gender": "M",
+    "pr_date": "2024-12-06"
+  },
+  {
+    "athlete": "Bergen Irey (HS)",
+    "event": "800m",
+    "pr": "2:12.33",
+    "gender": "M",
+    "pr_date": "2023-05-02"
+  },
+  {
+    "athlete": "Bergen Irey",
+    "event": "1k",
+    "pr": "2:51.37",
+    "gender": "M",
+    "pr_date": "2025-02-01"
+  },
+  {
+    "athlete": "Bergen Irey",
+    "event": "1500m",
+    "pr": "4:57.61",
+    "gender": "M",
+    "pr_date": "2025-04-04"
+  },
+  {
+    "athlete": "Bergen Irey (HS)",
+    "event": "1600m",
+    "pr": "5:10.08",
+    "gender": "M",
+    "pr_date": "2023-03-27"
+  },
+  {
+    "athlete": "Bergen Irey (HS)",
+    "event": "3k",
+    "pr": "11:41.30",
+    "gender": "M",
+    "pr_date": "2019-10-12"
+  },
+  {
+    "athlete": "Bergen Irey (HS)",
+    "event": "3200m",
+    "pr": "11:20.41",
+    "gender": "M",
+    "pr_date": "2023-04-24"
+  },
+  {
+    "athlete": "Bergen Irey (HS)",
+    "event": "4k",
+    "pr": "14:33.20",
+    "gender": "M",
+    "pr_date": "2022-10-08"
+  },
+  {
+    "athlete": "Bergen Irey (HS)",
+    "event": "5k",
+    "pr": "17:47.10",
+    "gender": "M",
+    "pr_date": "2023-10-14"
+  },
+  {
+    "athlete": "Bergen Irey",
+    "event": "60m Hurdles",
+    "pr": "10.32",
+    "gender": "M",
+    "pr_date": "2025-02-07"
+  },
+  {
+    "athlete": "Bergen Irey",
+    "event": "110m Hurdles",
+    "pr": "18.49",
+    "gender": "M",
+    "pr_date": "2025-03-28"
+  },
+  {
+    "athlete": "Bergen Irey",
+    "event": "400m Hurdles",
+    "pr": "1:03.66",
+    "gender": "M",
+    "pr_date": "2025-04-30"
+  },
+  {
+    "athlete": "Bergen Irey",
+    "event": "Shot Put",
+    "pr": "8.55m",
+    "gender": "M",
+    "pr_date": "2025-01-31"
+  },
+  {
+    "athlete": "Bergen Irey",
+    "event": "Discus",
+    "pr": "23.26m",
+    "gender": "M",
+    "pr_date": "2025-04-12"
+  },
+  {
+    "athlete": "Bergen Irey",
+    "event": "Javelin",
+    "pr": "38.44m",
+    "gender": "M",
+    "pr_date": "2025-05-08"
+  },
+  {
+    "athlete": "Bergen Irey",
+    "event": "High Jump",
+    "pr": "1.80m",
+    "gender": "M",
+    "pr_date": "2025-04-15"
+  },
+  {
+    "athlete": "Bergen Irey",
+    "event": "Pole Vault",
+    "pr": "3.45m",
+    "gender": "M",
+    "pr_date": "2025-05-08"
+  },
+  {
+    "athlete": "Bergen Irey",
+    "event": "Long Jump",
+    "pr": "5.63m",
+    "gender": "M",
+    "pr_date": "2025-04-15"
+  },
+  {
+    "athlete": "Bergen Irey",
+    "event": "Triple Jump",
+    "pr": "11.38m",
+    "gender": "M",
+    "pr_date": "2024-04-09"
+  },
+  {
+    "athlete": "Bergen Irey",
+    "event": "Heptathlon",
+    "pr": "3595",
+    "gender": "M",
+    "pr_date": "2025-02-01"
+  },
+  {
+    "athlete": "Bergen Irey",
+    "event": "Decathlon",
+    "pr": "4426",
+    "gender": "M",
+    "pr_date": "2025-04-16"
+  },
+  {
+    "athlete": "Alex Glover",
+    "event": "Javelin",
+    "pr": "69.67m",
+    "gender": "M",
+    "pr_date": "2024-05-18"
+  },
+  {
+    "athlete": "Taylor Hauge",
+    "event": "10k",
+    "pr": "36:12.69",
+    "gender": "M",
+    "pr_date": "2024-10-26"
+  },
+  {
+    "athlete": "Shandon Reitzel",
+    "event": "High Jump",
+    "pr": "2.20m",
+    "gender": "M",
+    "pr_date": "2024-04-13"
+  },
+  {
+    "athlete": "Treshawn Roberts",
+    "event": "Pole Vault",
+    "pr": "6.35m",
+    "gender": "M",
+    "pr_date": "2024-05-11"
+  },
+  {
+    "athlete": "Treshawn Roberts",
+    "event": "Decathlon",
+    "pr": "6596",
+    "gender": "M",
+    "pr_date": "2024-04-20"
+  },
+  {
+    "athlete": "Tysen Grinde",
+    "event": "Triple Jump",
+    "pr": "14.14m",
+    "gender": "M",
+    "pr_date": "2024-04-27"
+  },
+  {
+    "athlete": "Brock Krueger",
+    "event": "Triple Jump",
+    "pr": "16.67m",
+    "gender": "M",
+    "pr_date": "2023-05-06"
+  },
+  {
+    "athlete": "Lukas Bennett",
+    "event": "60m",
+    "pr": "7.58",
+    "gender": "M",
+    "pr_date": "2025-02-08"
+  },
+  {
+    "athlete": "Bergen Irey",
+    "event": "3k Steeplechase",
+    "pr": "10:33.45",
+    "gender": "M",
+    "pr_date": "2025-04-19"
+  },
+  {
+    "athlete": "Chantz Minear",
+    "event": "110m Hurdles",
+    "pr": "14.69",
+    "gender": "M",
+    "pr_date": "2024-05-04"
+  },
+  {
+    "athlete": "Bergen Irey",
+    "event": "High Jump",
+    "pr": "2.20m",
+    "gender": "M",
+    "pr_date": "2025-05-17"
+  },
+  {
+    "athlete": "Dawson Miller",
+    "event": "600m",
+    "pr": "1:29.18",
+    "gender": "M",
+    "pr_date": "2025-03-15"
+  },
+  {
+    "athlete": "Bergen Irey",
+    "event": "500m",
+    "pr": "1:20.69",
+    "gender": "M",
+    "pr_date": "2025-01-25"
+  },
+  {
+    "athlete": "Tysen Grinde",
+    "event": "High Jump",
+    "pr": "1.35m",
+    "gender": "M",
+    "pr_date": "2024-04-06"
+  },
+  {
+    "athlete": "Casey Olson",
+    "event": "Javelin",
+    "pr": "50.22m",
+    "gender": "W",
+    "pr_date": "2024-05-10"
+  },
+  {
+    "athlete": "Amelie Steins",
+    "event": "Heptathlon",
+    "pr": "4564",
+    "gender": "W",
+    "pr_date": "2024-04-21"
+  },
+  {
+    "athlete": "Talon George",
+    "event": "Long Jump",
+    "pr": "6.59m",
+    "gender": "M",
+    "pr_date": "2024-05-03"
+  },
+  {
+    "athlete": "Rasmus Loken",
+    "event": "Pole Vault",
+    "pr": "4.45m",
+    "gender": "M",
+    "pr_date": "2024-04-26"
+  },
+  {
+    "athlete": "Miles Eide",
+    "event": "Pole Vault",
+    "pr": "3.69m",
+    "gender": "M",
+    "pr_date": "2024-05-09",
+    "note": "Test Test test"
+  },
+  {
+    "athlete": "Zach Haugen",
+    "event": "Hammer Throw",
+    "pr": "57.69m",
+    "gender": "M",
+    "pr_date": "2024-05-15",
+    "note": "Super good throw!"
+  }
+]
