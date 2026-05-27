@@ -494,12 +494,23 @@ function clearTableFilter() {
     ['running', 'short-distance', 'long-distance', 'cross-country', 'throwing', 'jumping', 'multi'].forEach(category => {
         const section = document.getElementById(category + '-section');
         if (section) {
-            section.style.display = 'block';
-            // Show all event subsections within this category
-            const subsections = section.querySelectorAll('.event-subsection');
+            // Reveal the category section, but only show subsections that
+            // actually contain table rows (i.e., have data). This prevents
+            // empty event subsections from appearing after a reset.
+            const subsections = Array.from(section.querySelectorAll('.event-subsection'));
+            let anyVisible = false;
             subsections.forEach(subsection => {
-                subsection.style.display = 'block';
+                const tbody = subsection.querySelector('tbody');
+                const hasRows = tbody && tbody.children && tbody.children.length > 0;
+                if (hasRows) {
+                    subsection.style.display = 'block';
+                    anyVisible = true;
+                } else {
+                    subsection.style.display = 'none';
+                }
             });
+            // Only display category if at least one subsection has rows
+            section.style.display = anyVisible ? 'block' : 'none';
         }
     });
 }
