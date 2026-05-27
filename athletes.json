@@ -301,5 +301,13 @@
     "gender": "M",
     "pr_date": "2024-05-15",
     "note": "Super good throw!"
+  },
+  {
+    "athlete": "Averie Marshall",
+    "event": "200m",
+    "pr": "24.24",
+    "gender": "W",
+    "pr_date": "2026-04-29",
+    "note": ""
   }
 ]

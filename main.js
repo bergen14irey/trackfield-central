@@ -24,6 +24,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (runningSection) {
         loadAthleteRecords();
     }
+    
+    // Set Render backend
+    window.API_BASE_URL = 'https://trackandfield-central.onrender.com';
 
     // Search functionality for records table
     const eventSearch = document.getElementById('eventSearch');
@@ -91,16 +94,17 @@ async function loadAthleteRecords() {
     try {
         // Prefer server API when available (used when running via node server.js)
         let athletes = null;
+        const apiUrl = (window.API_BASE_URL || '') + '/api/records';
         try {
-            const response = await fetch('/api/records');
-            console.debug('loadAthleteRecords: GET /api/records status', response.status);
+            const response = await fetch(apiUrl);
+            console.debug('loadAthleteRecords: GET', apiUrl, 'status', response.status);
             if (response.ok) {
                 athletes = await response.json();
             } else {
-                console.info('loadAthleteRecords: /api/records returned non-ok status', response.status);
+                console.info('loadAthleteRecords:', apiUrl, 'returned non-ok status', response.status);
             }
         } catch (apiErr) {
-            console.info('loadAthleteRecords: could not reach /api/records, falling back to athletes.json', apiErr && apiErr.message);
+            console.info('loadAthleteRecords: could not reach', apiUrl, apiErr && apiErr.message);
         }
 
         // Fallback to local static file for file:// or simple hosting scenarios
@@ -384,7 +388,8 @@ function escapeHtml(str) {
 let allEvents = [];
 async function setupEventAutocomplete() {
     try {
-        const res = await fetch('/api/events');
+        const apiUrl = (window.API_BASE_URL || '') + '/api/events';
+        const res = await fetch(apiUrl);
         if (!res.ok) return;
         allEvents = await res.json();
         
@@ -603,7 +608,8 @@ document.addEventListener('DOMContentLoaded', function() {
             };
 
             try {
-                const response = await fetch('/api/records', {
+                const apiUrl = (window.API_BASE_URL || '') + '/api/records';
+                const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -615,12 +621,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     registrationForm.reset();
                     window.location.href = '/success.html';
                 } else {
-                    const errorData = await response.json();
-                    alert('Error: ' + (errorData.error || 'There was an error submitting the form. Please try again.'));
+                    let errorMsg = 'There was an error submitting the form. Please try again.';
+                    try {
+                        const errorData = await response.json();
+                        errorMsg = errorData.error || errorMsg;
+                    } catch (e) {
+                        // If response isn't JSON, use generic error
+                    }
+                    alert('Error: ' + errorMsg);
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('Unable to submit form. Please check your connection. Error: ' + error.message);
+                const msg = error.message || 'Unknown error';
+                alert('Unable to submit form. Please make sure:\n1. The backend server is deployed and running\n2. Your API_BASE_URL is set correctly in main.js\n3. Your internet connection is working\n\nError details: ' + msg);
             }
         });
     }
