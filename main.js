@@ -619,7 +619,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (response.ok) {
                     registrationForm.reset();
-                    window.location.href = '/success.html';
+                    // Use a relative path so GitHub Pages resolves the page correctly
+                    window.location.href = 'success.html';
                 } else {
                     let errorMsg = 'There was an error submitting the form. Please try again.';
                     try {
