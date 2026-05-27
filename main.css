@@ -1,3 +1,9 @@
+/*
+    main.css - Site stylesheet
+    - Contains layout, typography, and component styles for the site.
+    - Sections are grouped: Navbar, Hero, Main, Records table, Forms, Responsive.
+    - Keep selectors focused and avoid global overrides where possible.
+*/
 /* General Styles */
 * {
     margin: 0;

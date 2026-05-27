@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+<!--
+    b.html - Submission form page
+    - Contains `#registrationForm` used to POST new records to `/api/records`.
+    - Client-side validation and optimistic UI behavior are implemented in `main.js`.
+-->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +12,7 @@
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
+    <!-- Navigation (shared) -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">Track & Field Record Submissions</a>
@@ -23,6 +29,7 @@
         </div>
     </nav>
 
+    <!-- Header for form page -->
     <header class="hero">
         <h1>Track and Field Central</h1>
         <p></p>
@@ -42,6 +49,7 @@
             </p>
         </section>
 
+        <!-- Submission form: collects athlete, event, PR info and posts to API -->
         <section class="form-section">
             <form id="registrationForm">
                 <div class="form-group">
@@ -145,6 +153,7 @@
         <p>&copy; Irey Final Project. Only As Allowed.</p>
     </footer>
 
+    <!-- Page script: handles validation, POST, and optimistic storage -->
     <script src="main.js"></script>
 </body>
 </html>

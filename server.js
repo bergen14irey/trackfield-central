@@ -10,11 +10,13 @@ const PORT = 3000;
 const DB_FILE = path.join(__dirname, 'data.db');
 
 // Middleware
+// Serve static files from project root (HTML/CSS/JS/images)
 app.use(express.static(path.join(__dirname)));
+// Parse JSON and URL-encoded bodies for API endpoints
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Use cors middleware to correctly set Access-Control-Allow-* headers
+// Enable CORS so the frontend (GitHub Pages or other origins) can call API
 app.use(cors({ origin: true, credentials: true }));
 
 // Initialize SQLite DB
@@ -26,7 +28,7 @@ const db = new sqlite3.Database(DB_FILE, (err) => {
     }
 });
 
-// Ensure table exists (use create_tables.sql if available)
+// Initialize DB schema from `create_tables.sql` if present
 const schemaSql = fs.readFileSync(path.join(__dirname, 'create_tables.sql'), 'utf8');
 db.exec(schemaSql, (err) => {
     if (err) console.error('Error initializing database schema:', err);
@@ -104,6 +106,8 @@ function backfillGenderFromJson() {
 }
 
 // Helper: parse a free-form PR text into numeric value, type and unit
+// parsePr: turn free-form PR text into a numeric value, type, and unit
+// - recognizes mm:ss(.ms), meters (m), feet/inches, and points
 function parsePr(prText, eventName) {
     if (!prText || typeof prText !== 'string') return null;
     const s = prText.trim();
@@ -161,6 +165,8 @@ function parsePr(prText, eventName) {
     return null;
 }
 
+// seedIfEmpty: when DB has no records, seed from `athletes.json` to
+// populate example data for the UI. This is safe to run on each start.
 function seedIfEmpty() {
     db.get('SELECT COUNT(1) as cnt FROM records', (err, row) => {
         if (err) return console.error('DB count error', err);
@@ -229,7 +235,8 @@ ensureGenderColumn(() => {
 });
 
 // API Routes
-// GET all registrations (retrieve data for display) - kept for compatibility
+// -----------------
+// GET all registrations (legacy/compatibility)
 app.get('/api/registrations', (req, res) => {
     db.all('SELECT * FROM records ORDER BY event, pr_value', (err, rows) => {
         if (err) return res.status(500).json({ error: 'Unable to retrieve registrations' });
@@ -309,7 +316,7 @@ app.post('/api/records', (req, res) => {
     }
 });
 
-// GET events (distinct)
+// GET distinct event names (used by autocomplete)
 app.get('/api/events', (req, res) => {
     db.all('SELECT DISTINCT event FROM records ORDER BY event', (err, rows) => {
         if (err) return res.status(500).json({ error: 'Unable to retrieve events' });
@@ -317,7 +324,10 @@ app.get('/api/events', (req, res) => {
     });
 });
 
-// GET records with optional filters: ?event=EventName&order=fastest|furthest|highest|alpha&top=N
+// GET records with optional filters:
+//  - ?event=EventName
+//  - ?order=fastest|furthest|highest|alpha|best
+//  - ?top=N
 app.get('/api/records', (req, res) => {
     const event = req.query.event;
     const order = req.query.order || 'best';

@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+<!--
+    a.html - Records page
+    - Displays categorized records grouped by event subsections.
+    - Includes search and category filters; tables are populated by `main.js`.
+    - Event subsections are reordered at runtime based on parsed numeric distances.
+-->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +13,7 @@
     <link rel="stylesheet" href="main.css">
 </head>
 <body>
+    <!-- Navigation (shared across pages) -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">Track & Field Records</a>
@@ -23,12 +30,14 @@
         </div>
     </nav>
 
+    <!-- Page header / hero for the Records view -->
     <header class="hero">
         <h1> Track and Field Central</h1>
         <p>From the Blocks to the Pit, to the Ring to the Course</p>
         <p> How do you stack up? </p>
     </header>
 
+    <!-- Main records content: search, filters, and event group sections -->
     <main>
         <section class="records">
             <h2>Records</h2>
@@ -624,6 +633,7 @@
         <p>&copy; Irey Final Project. Only As Allowed.</p>
     </footer>
 
+    <!-- Behaviors: load records, autocomplete, filtering -->
     <script src="main.js"></script>
 </body>
 </html>

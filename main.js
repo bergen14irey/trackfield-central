@@ -3,13 +3,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
     
+    // Mobile hamburger: open/close navigation menu
     if (hamburger) {
         hamburger.addEventListener('click', function() {
             hamburger.classList.toggle('active');
             navMenu.classList.toggle('active');
         });
 
-        // Close menu when a link is clicked
+        // Close mobile menu when a navigation link is clicked
         const navLinks = document.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
             link.addEventListener('click', function() {
@@ -19,29 +20,38 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Load athletes data from API
+    // If this is the records page (has running section), load records
     const runningSection = document.getElementById('running-section');
     if (runningSection) {
         loadAthleteRecords();
     }
     
-    // Set Render backend
+    // Default backend base URL (Render deployment). When testing locally
+    // you can change or clear this to use `athletes.json` fallback.
     window.API_BASE_URL = 'https://trackandfield-central.onrender.com';
 
-    // Search functionality for records table
+    // Wire up search/filter UI for the Records view
     const eventSearch = document.getElementById('eventSearch');
     const clearSearch = document.getElementById('clearSearch');
 
     if (eventSearch) {
         eventSearch.addEventListener('input', filterTable);
         clearSearch.addEventListener('click', clearTableFilter);
-        // group select
+        // group select (category filter)
         const groupSelect = document.getElementById('groupSelect');
         if (groupSelect) groupSelect.addEventListener('change', filterTable);
     }
+    // Initialize event autocomplete dropdown (fetches /api/events)
+    setupEventAutocomplete();
 })
 
 // Extract event distance in meters from event name
+// Parse a numeric distance (in meters) from an event name.
+// Examples:
+//  - "5k" => 5000
+//  - "400m" or "400" => 400
+//  - "steeplechase 3000" => 3000
+// Returns integer meters or null when not parsable.
 function getEventDistance(eventName) {
     const name = eventName.toLowerCase();
     
@@ -67,6 +77,8 @@ function getEventDistance(eventName) {
 }
 
 // Categorize event into group
+// Map an event name to a high-level category used for grouping in the UI.
+// Returns one of: 'multi', 'jumping', 'throwing', or 'running' (default).
 function categorizeEvent(eventName) {
     const name = eventName.toLowerCase();
     
@@ -89,10 +101,18 @@ function categorizeEvent(eventName) {
     return 'running';
 }
 
-// Load athlete records from API
+// -------------------------
+// Main data loading and rendering for Records page
+// Responsibilities:
+//  - Fetch records from the backend `/api/records` when available
+//  - Fallback to `athletes.json` when running as static files
+//  - Merge a locally stored pending submission (optimistic UI)
+//  - Categorize records into sections (running, jumping, throwing, multi)
+//  - Group by event and sort both events and individual performances
+//  - Populate the DOM tables for each event
 async function loadAthleteRecords() {
     try {
-        // Prefer server API when available (used when running via node server.js)
+        // Try backend API first (works when the Express server is running)
         let athletes = null;
         const apiUrl = (window.API_BASE_URL || '') + '/api/records';
         try {
@@ -104,10 +124,11 @@ async function loadAthleteRecords() {
                 console.info('loadAthleteRecords:', apiUrl, 'returned non-ok status', response.status);
             }
         } catch (apiErr) {
+            // Network or CORS errors will land here; continue to fallback
             console.info('loadAthleteRecords: could not reach', apiUrl, apiErr && apiErr.message);
         }
 
-        // Fallback to local static file for file:// or simple hosting scenarios
+        // Fallback to local JSON when no API available (useful for GitHub Pages without a backend)
         if (!Array.isArray(athletes) || athletes.length === 0) {
             try {
                 const localResp = await fetch('athletes.json');
@@ -122,13 +143,32 @@ async function loadAthleteRecords() {
             }
         }
 
+        // Merge any pending local submission saved during a recent POST so the user sees their entry immediately
+        try {
+            const pendingRaw = localStorage.getItem('lastSubmission');
+            if (pendingRaw) {
+                const pendingObj = JSON.parse(pendingRaw);
+                const exists = Array.isArray(athletes) && athletes.some(a =>
+                    a.athlete === pendingObj.athlete && a.event === pendingObj.event && (a.pr_text === pendingObj.pr_text || String(a.pr_value) === String(pendingObj.pr_value))
+                );
+                if (!exists) {
+                    athletes = Array.isArray(athletes) ? athletes.concat(pendingObj) : [pendingObj];
+                }
+                // Remove pending after merging so it doesn't persist indefinitely
+                localStorage.removeItem('lastSubmission');
+            }
+        } catch (e) {
+            console.warn('Could not merge pending submission', e);
+        }
+
         if (!Array.isArray(athletes) || athletes.length === 0) {
             populateEmptySections();
             console.info('loadAthleteRecords: no records available from API or athletes.json');
             return;
         }
         
-        // Organize records by category
+        // Build categorized buckets for display. These are used to show logical sections
+        // on the Records page (Sprints, Hurdles, Distance, etc.).
         const categorized = {
             running: [],
             'short-distance': [],
@@ -140,27 +180,23 @@ async function loadAthleteRecords() {
             multi: []
         };
         
+        // Assign each record to a category. Running events are further sub-categorized
+        // based on distance and whether they are hurdles/steeplechase.
         athletes.forEach(record => {
             const category = categorizeEvent(record.event);
             if (category === 'running') {
-                // Sub-categorize running by event type
                 const eventName = record.event.toLowerCase();
-                
-                // Hurdles (any hurdle distance) go to short distance (consider steeple a hurdle event)
                 if (eventName.includes('hurdle') || eventName.includes('steeplechase')) {
                     categorized['short-distance'].push(record);
                 } else if (eventName.includes('marathon') || eventName.includes('half marathon')) {
-                    // Marathons and half marathons go to cross-country (long distance)
                     categorized['cross-country'].push(record);
                 } else {
-                    // Non-hurdle running events: categorize by distance
                     const distance = getEventDistance(record.event);
                     if (distance !== null && distance >= 3000) {
                         categorized['cross-country'].push(record);
                     } else if (distance !== null && distance >= 800) {
                         categorized['long-distance'].push(record);
                     } else {
-                        // Default to running if distance not specified or other
                         categorized['running'].push(record);
                     }
                 }
@@ -168,87 +204,8 @@ async function loadAthleteRecords() {
                 categorized[category].push(record);
             }
         });
-        
-        // Sort running events by distance (shortest to longest)
-        const sortByDistanceThenEventThenPerformance = (a, b) => {
-            // First sort by distance of event
-            const distA = getEventDistance(a.event);
-            const distB = getEventDistance(b.event);
 
-            if (distA !== null && distB !== null) {
-                if (distA !== distB) return distA - distB;
-            } else if (distA !== null) {
-                return -1; // a has distance, b doesn't
-            } else if (distB !== null) {
-                return 1; // b has distance, a doesn't
-            }
-
-            // Detects running events
-            const aEvent = a.event.toLowerCase();
-            const bEvent = b.event.toLowerCase();
-
-            const isRunningA =
-                aEvent.includes('m') ||
-                aEvent.includes('meter') ||
-                aEvent.includes('mile') ||
-                aEvent.includes('hurdle') ||
-                aEvent.includes('steeple');
-
-            const isRunningB =
-                bEvent.includes('m') ||
-                bEvent.includes('meter') ||
-                bEvent.includes('mile') ||
-                bEvent.includes('hurdle') ||
-                bEvent.includes('steeple');
-
-            const clean = str =>
-                typeof str === 'string'
-                    ? parseFloat(str.replace(/[^\d.]/g, ''))
-                    : NaN;
-
-            //If running event, sort by PR FIRST
-            if (isRunningA && isRunningB) {
-                const prA = clean(a.pr);
-                const prB = clean(b.pr);
-
-                if (!isNaN(prA) && !isNaN(prB)) {
-                    return prA - prB; // lower time is better
-                }
-            }
-
-            // If running events, PR must override event name
-            if (isRunningA && isRunningB) {
-                const prA2 = clean(a.pr);
-                const prB2 = clean(b.pr);
-                if (!isNaN(prA2) && !isNaN(prB2)) {
-                    return prA2 - prB2; // lower time is better
-                }
-            }
-
-            // If same event, sort by performance (numeric value extracted from pr)
-            const prA2 = clean(a.pr);
-            const prB2 = clean(b.pr);
-
-            // If both are valid numbers, sort numerically (descending for height/distance, ascending for time)
-            if (!isNaN(prA2) && !isNaN(prB2)) {
-                // For jumping events (higher is better), sort descending
-                if (a.event.toLowerCase().includes('jump') || a.event.toLowerCase().includes('vault')) {
-                    return prB2 - prA2;
-                }
-                // For throwing events (higher is better), sort descending
-                if (a.event.toLowerCase().includes('shot') || a.event.toLowerCase().includes('discus') || a.event.toLowerCase().includes('javelin')) {
-                    return prB2 - prA2;
-                }
-                // For running/hurdles (lower time is better), sort ascending
-                else {
-                    return prA2 - prB2;
-                }
-            }
-
-            return 0;
-        };
-        
-        // Group records by specific event
+        // Group records by specific event name for table rendering
         const eventGroups = {};
         athletes.forEach(record => {
             const eventName = record.event;
@@ -257,56 +214,63 @@ async function loadAthleteRecords() {
             }
             eventGroups[eventName].push(record);
         });
-        
-        // Sort each event's records by performance
+
+        // Map each event name to a display category so we can reorder DOM
+        // subsections to match numeric ordering.
+        const eventCategoryMap = {};
+        Object.keys(eventGroups).forEach(eventName => {
+            const baseCategory = categorizeEvent(eventName);
+            if (baseCategory !== 'running') {
+                eventCategoryMap[eventName] = baseCategory;
+            } else {
+                // Running into short-distance, long-distance, cross-country
+                const en = eventName.toLowerCase();
+                if (en.includes('hurdle') || en.includes('steeplechase')) {
+                    eventCategoryMap[eventName] = 'short-distance';
+                } else if (en.includes('marathon') || en.includes('half marathon')) {
+                    eventCategoryMap[eventName] = 'cross-country';
+                } else {
+                    const d = getEventDistance(eventName);
+                    if (d !== null && d >= 3000) eventCategoryMap[eventName] = 'cross-country';
+                    else if (d !== null && d >= 800) eventCategoryMap[eventName] = 'long-distance';
+                    else eventCategoryMap[eventName] = 'running';
+                }
+            }
+        });
+
+        // Sort function for the rows inside each event table. It decides whether
+        // higher is better (throws/jumps) or lower is better (times) and sorts accordingly.
         const sortByPerformance = (a, b) => {
-            const clean = str =>
-                typeof str === 'string'
-                    ? parseFloat(str.replace(/[^\d.]/g, ''))
-                    : NaN;
-            
+            const clean = str => typeof str === 'string' ? parseFloat(str.replace(/[^\d.]/g, '')) : NaN;
             const prA = clean(a.pr_text || a.pr_value || a.pr);
             const prB = clean(b.pr_text || b.pr_value || b.pr);
-            
             if (!isNaN(prA) && !isNaN(prB)) {
                 const eventLower = a.event.toLowerCase();
-                // For jumping/vault events (higher is better), sort descending
-                if (eventLower.includes('jump') || eventLower.includes('vault')) {
-                    return prB - prA;
-                }
-                // For throwing events (higher is better), sort descending
-                if (eventLower.includes('shot') || eventLower.includes('discus') || eventLower.includes('javelin')) {
-                    return prB - prA;
-                }
-                // For multi-events (higher is better), sort descending
-                if (eventLower.includes('heptathlon') || eventLower.includes('decathlon')) {
-                    return prB - prA;
-                }
-                // For running/hurdles (lower time is better), sort ascending
-                return prA - prB;
+                if (eventLower.includes('jump') || eventLower.includes('vault')) return prB - prA;
+                if (eventLower.includes('shot') || eventLower.includes('discus') || eventLower.includes('javelin')) return prB - prA;
+                if (eventLower.includes('heptathlon') || eventLower.includes('decathlon')) return prB - prA;
+                return prA - prB; // running: lower is better
             }
-            
             return 0;
         };
-        
-        // First, hide all event subsections
+
+        // Hide all subsections initially; we'll reveal those that contain data
         document.querySelectorAll('.event-subsection').forEach(subsection => {
             subsection.style.display = 'none';
         });
-        
-        // Sort events by numeric distance (robust), then alphabetically
+
+        // Parse event name to a sortable numeric distance when possible
         const parseDistanceForSort = name => {
             if (!name || typeof name !== 'string') return Number.MAX_SAFE_INTEGER;
             const n = name.toLowerCase().trim();
-            // 1k, 3k, etc.
             const kMatch = n.match(/(\d+)\s*k$/);
             if (kMatch) return parseInt(kMatch[1], 10) * 1000;
-            // match numbers before m or at end (e.g., 400m, 200, 1500m)
             const mMatch = n.match(/(\d+)(?=\s*(?:m|$))/);
             if (mMatch) return parseInt(mMatch[1], 10);
             return Number.MAX_SAFE_INTEGER;
         };
 
+        // Order events numerically by distance where possible, otherwise alphabetically
         const eventNamesSorted = Object.keys(eventGroups).sort((a, b) => {
             const distA = parseDistanceForSort(a);
             const distB = parseDistanceForSort(b);
@@ -314,16 +278,24 @@ async function loadAthleteRecords() {
             return String(a).localeCompare(String(b));
         });
 
-        // Reorder DOM subsections so events appear in sorted order on the page
-        const allSubsections = Array.from(document.querySelectorAll('.event-subsection'));
-        eventNamesSorted.forEach(eventName => {
-            const subsection = allSubsections.find(s => s.getAttribute('data-event') === eventName);
-            if (subsection && subsection.parentElement) {
-                subsection.parentElement.appendChild(subsection);
-            }
+        // Reorder event subsections in the DOM to match our sorted event order,
+        // grouped by category so Sprints/Hurdles/Distance sections show events
+        // in logical numeric order instead of the static HTML order.
+        const categories = ['running', 'short-distance', 'long-distance', 'cross-country', 'throwing', 'jumping', 'multi'];
+        categories.forEach(category => {
+            const container = document.getElementById(category + '-section');
+            if (!container) return;
+            // Find event names for this category in sorted order
+            const namesForCategory = eventNamesSorted.filter(name => eventCategoryMap[name] === category);
+            namesForCategory.forEach(evtName => {
+                // Find the subsection element with matching data-event attribute
+                const subsections = Array.from(container.querySelectorAll('.event-subsection'));
+                const sub = subsections.find(s => s.getAttribute('data-event') === evtName);
+                if (sub) container.appendChild(sub); // move into sorted order
+            });
         });
 
-        // Populate tables after reordering
+        // Populate DOM tables for each event in sorted order
         eventNamesSorted.forEach(eventName => {
             eventGroups[eventName].sort(sortByPerformance);
             populateEventTable(eventName, eventGroups[eventName]);
@@ -335,26 +307,17 @@ async function loadAthleteRecords() {
     }
 }
 
-function getCategoryLabel(category) {
-    const labels = {
-        'running': 'Sprints',
-        'short-distance': 'Hurdles',
-        'long-distance': 'Mid Distance',
-        'cross-country': 'Long Distance',
-        'throwing': 'Throwing',
-        'jumping': 'Jumping',
-        'multi': 'Multi-Event'
-    };
-    return labels[category] || category;
-}
-
-// Convert event name to tbody class name
+// Convert an event name into a safe CSS class fragment used for tbody selectors.
+// e.g., "400 m" -> "400-m"
 function eventToClassName(eventName) {
     return eventName.toLowerCase()
         .replace(/\s+/g, '-')
         .replace(/[()]/g, '');
 }
 
+// Populate the HTML table body for a single event with `records`.
+// Shows/hides the event subsection depending on data presence and
+// appends a table row for each record.
 function populateEventTable(eventName, records) {
     const className = eventToClassName(eventName);
     const tbody = document.querySelector(`.event-tbody-${className}`);
@@ -396,7 +359,7 @@ function populateEventTable(eventName, records) {
     });
 }
 
-// Utility to escape HTML
+// Escape text to safe HTML to avoid injection when inserting into innerHTML
 function escapeHtml(str) {
     if (!str && str !== 0) return '';
     return String(str).replace(/[&<>"']/g, function (s) {
@@ -404,7 +367,9 @@ function escapeHtml(str) {
     });
 }
 
-// Autocomplete for event search: fetch distinct events and show custom dropdown
+// Autocomplete utilities for the event search input on the Records page.
+// `allEvents` stores the list fetched from `/api/events` and the
+// dropdown is rendered by `showEventSuggestions`.
 let allEvents = [];
 async function setupEventAutocomplete() {
     try {
@@ -428,6 +393,8 @@ async function setupEventAutocomplete() {
     }
 }
 
+// Render the autocomplete dropdown under the event search input and
+// wire up click-to-select behavior for suggestions.
 function showEventSuggestions(e) {
     const input = e.target;
     const value = input.value.toLowerCase().trim();
@@ -465,14 +432,14 @@ function showEventSuggestions(e) {
     });
 }
 
+// Hide the event suggestion dropdown.
 function hideEventSuggestions() {
     const dropdown = document.getElementById('event-dropdown');
     if (dropdown) dropdown.style.display = 'none';
 }
 
-// Call autocomplete setup on load
-document.addEventListener('DOMContentLoaded', setupEventAutocomplete);
-
+// Filter visible event subsections by the search input and category selector.
+// Hides subsections that don't match the current text/group selection.
 function filterTable() {
     const searchInput = document.getElementById('eventSearch').value.toLowerCase().trim();
     const groupSelect = document.getElementById('groupSelect');
@@ -518,6 +485,7 @@ function filterTable() {
     });
 }
 
+// Clear the search and group filters and reveal all sections/subsections.
 function clearTableFilter() {
     document.getElementById('eventSearch').value = '';
     document.getElementById('groupSelect').value = 'all';
@@ -536,7 +504,8 @@ function clearTableFilter() {
     });
 }
 
-// Form validation
+// Validate form inputs before submission. Adds inline error messages
+// and returns `true` when the form is valid, `false` otherwise.
 function validateForm(formId) {
     const form = document.getElementById(formId);
     if (!form) return true;
@@ -591,6 +560,7 @@ function validateForm(formId) {
     return isValid;
 }
 
+// Mark a specific input as invalid and show `message` in the form UI.
 function setError(input, message) {
     const formGroup = input.closest('.form-group');
     if (formGroup) {
@@ -638,6 +608,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
 
                 if (response.ok) {
+                    // Save the submitted record to localStorage so Records page can show it immediately
+                    try {
+                        const pending = Object.assign({}, data);
+                        pending.pr_text = pending.pr_text || String(pending.pr_value || '');
+                        pending.created_at = new Date().toISOString();
+                        pending._pending = true;
+                        localStorage.setItem('lastSubmission', JSON.stringify(pending));
+                    } catch (e) {
+                        console.warn('Could not save lastSubmission', e);
+                    }
                     registrationForm.reset();
                     // Ensure the success page resolves correctly regardless of GitHub Pages path
                     const successUrl = new URL('success.html', window.location.href).href;
