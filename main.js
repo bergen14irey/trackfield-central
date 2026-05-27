@@ -287,11 +287,27 @@ async function loadAthleteRecords() {
             if (!container) return;
             // Find event names for this category in sorted order
             const namesForCategory = eventNamesSorted.filter(name => eventCategoryMap[name] === category);
+            const subsections = Array.from(container.querySelectorAll('.event-subsection'));
+            const moved = new Set();
+
+            // First, append subsections that correspond to actual data (sorted)
             namesForCategory.forEach(evtName => {
-                // Find the subsection element with matching data-event attribute
-                const subsections = Array.from(container.querySelectorAll('.event-subsection'));
                 const sub = subsections.find(s => s.getAttribute('data-event') === evtName);
-                if (sub) container.appendChild(sub); // move into sorted order
+                if (sub) {
+                    container.appendChild(sub); // move into sorted order
+                    moved.add(sub);
+                }
+            });
+
+            // Then, append remaining subsections (those without data) to the end and hide them
+            subsections.forEach(s => {
+                if (!moved.has(s)) {
+                    // ensure empty subsections are hidden
+                    const tbody = s.querySelector('tbody');
+                    const hasRows = tbody && tbody.children && tbody.children.length > 0;
+                    if (!hasRows) s.style.display = 'none';
+                    container.appendChild(s);
+                }
             });
         });
 
