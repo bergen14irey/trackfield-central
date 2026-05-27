@@ -371,7 +371,7 @@ function populateEventTable(eventName, records) {
     tbody.innerHTML = '';
     
     records.forEach(record => {
-        const genderLabel = record.gender === 'M' ? 'Male' : record.gender === 'W' ? 'Female' : (record.gender || '-');
+        const genderLabel = record.gender === 'M' ? 'Male' : record.gender === 'F' ? 'Female' : record.gender === 'W' ? 'Female' : (record.gender || '-');
         const dateFormatted = record.pr_date ? new Date(record.pr_date).toLocaleDateString() : '-';
         const row = document.createElement('tr');
         row.innerHTML = `
