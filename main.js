@@ -89,14 +89,38 @@ function categorizeEvent(eventName) {
 // Load athlete records from API
 async function loadAthleteRecords() {
     try {
-        const response = await fetch('/api/records');
-        console.debug('loadAthleteRecords: GET /api/records status', response.status);
-        if (!response.ok) throw new Error('Failed to fetch records: ' + response.status);
-        const athletes = await response.json();
-        
+        // Prefer server API when available (used when running via node server.js)
+        let athletes = null;
+        try {
+            const response = await fetch('/api/records');
+            console.debug('loadAthleteRecords: GET /api/records status', response.status);
+            if (response.ok) {
+                athletes = await response.json();
+            } else {
+                console.info('loadAthleteRecords: /api/records returned non-ok status', response.status);
+            }
+        } catch (apiErr) {
+            console.info('loadAthleteRecords: could not reach /api/records, falling back to athletes.json', apiErr && apiErr.message);
+        }
+
+        // Fallback to local static file for file:// or simple hosting scenarios
+        if (!Array.isArray(athletes) || athletes.length === 0) {
+            try {
+                const localResp = await fetch('athletes.json');
+                if (localResp.ok) {
+                    athletes = await localResp.json();
+                    console.debug('loadAthleteRecords: loaded athletes.json fallback, count=', Array.isArray(athletes) ? athletes.length : 0);
+                } else {
+                    console.info('loadAthleteRecords: athletes.json fetch returned non-ok', localResp.status);
+                }
+            } catch (localErr) {
+                console.warn('loadAthleteRecords: failed to fetch athletes.json fallback', localErr && localErr.message);
+            }
+        }
+
         if (!Array.isArray(athletes) || athletes.length === 0) {
             populateEmptySections();
-            console.info('loadAthleteRecords: no records returned from API');
+            console.info('loadAthleteRecords: no records available from API or athletes.json');
             return;
         }
         
