@@ -314,6 +314,16 @@ async function loadAthleteRecords() {
             return String(a).localeCompare(String(b));
         });
 
+        // Reorder DOM subsections so events appear in sorted order on the page
+        const allSubsections = Array.from(document.querySelectorAll('.event-subsection'));
+        eventNamesSorted.forEach(eventName => {
+            const subsection = allSubsections.find(s => s.getAttribute('data-event') === eventName);
+            if (subsection && subsection.parentElement) {
+                subsection.parentElement.appendChild(subsection);
+            }
+        });
+
+        // Populate tables after reordering
         eventNamesSorted.forEach(eventName => {
             eventGroups[eventName].sort(sortByPerformance);
             populateEventTable(eventName, eventGroups[eventName]);
