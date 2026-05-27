@@ -294,14 +294,24 @@ async function loadAthleteRecords() {
             subsection.style.display = 'none';
         });
         
-        // Sort events by distance, then alphabetically, before populating (keeps new events in order)
+        // Sort events by numeric distance (robust), then alphabetically
+        const parseDistanceForSort = name => {
+            if (!name || typeof name !== 'string') return Number.MAX_SAFE_INTEGER;
+            const n = name.toLowerCase().trim();
+            // 1k, 3k, etc.
+            const kMatch = n.match(/(\d+)\s*k$/);
+            if (kMatch) return parseInt(kMatch[1], 10) * 1000;
+            // match numbers before m or at end (e.g., 400m, 200, 1500m)
+            const mMatch = n.match(/(\d+)(?=\s*(?:m|$))/);
+            if (mMatch) return parseInt(mMatch[1], 10);
+            return Number.MAX_SAFE_INTEGER;
+        };
+
         const eventNamesSorted = Object.keys(eventGroups).sort((a, b) => {
-            const distA = getEventDistance(a);
-            const distB = getEventDistance(b);
-            if (distA !== null && distB !== null && distA !== distB) return distA - distB;
-            if (distA !== null && distB === null) return -1;
-            if (distA === null && distB !== null) return 1;
-            return a.localeCompare(b);
+            const distA = parseDistanceForSort(a);
+            const distB = parseDistanceForSort(b);
+            if (distA !== distB) return distA - distB;
+            return String(a).localeCompare(String(b));
         });
 
         eventNamesSorted.forEach(eventName => {
