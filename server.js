@@ -5,6 +5,7 @@ const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
 
 const app = express();
+const cors = require('cors');
 const PORT = 3000;
 const DB_FILE = path.join(__dirname, 'data.db');
 
@@ -13,25 +14,8 @@ app.use(express.static(path.join(__dirname)));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Allow requests from GitHub Pages and localhost
-app.use((req, res, next) => {
-    const origin = req.headers.origin || '';
-    // Allow your GitHub Pages domain and localhost
-    if (origin.includes('github.io') || origin.includes('localhost') || origin.includes('127.0.0.1')) {
-        res.header('Access-Control-Allow-Origin', origin);
-    } else if (!origin) {
-        // Allow requests without origin (e.g., direct API calls)
-        res.header('Access-Control-Allow-Origin', '*');
-    }
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    
-    if (req.method === 'OPTIONS') {
-        return res.sendStatus(200);
-    }
-    next();
-});
+// Use cors middleware to correctly set Access-Control-Allow-* headers
+app.use(cors({ origin: true, credentials: true }));
 
 // Initialize SQLite DB
 const db = new sqlite3.Database(DB_FILE, (err) => {
