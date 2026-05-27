@@ -270,6 +270,15 @@ async function loadAthleteRecords() {
             return Number.MAX_SAFE_INTEGER;
         };
 
+        // Normalize event names for robust comparisons between data and HTML attributes
+        function normalizeEventKey(name) {
+            if (!name && name !== 0) return '';
+            return String(name)
+                .toLowerCase()
+                .replace(/[()]/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
         // Order events numerically by distance where possible, otherwise alphabetically
         const eventNamesSorted = Object.keys(eventGroups).sort((a, b) => {
             const distA = parseDistanceForSort(a);
@@ -292,7 +301,7 @@ async function loadAthleteRecords() {
 
             // First, append subsections that correspond to actual data (sorted)
             namesForCategory.forEach(evtName => {
-                const sub = subsections.find(s => s.getAttribute('data-event') === evtName);
+                const sub = subsections.find(s => normalizeEventKey(s.getAttribute('data-event')) === normalizeEventKey(evtName));
                 if (sub) {
                     container.appendChild(sub); // move into sorted order
                     moved.add(sub);
